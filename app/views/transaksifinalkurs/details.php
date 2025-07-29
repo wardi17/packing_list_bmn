@@ -99,6 +99,12 @@ $userid =  $data["userid"];
         <div class=" row col-md-12">
           <div class="col-md-6">
             <div class="row mb-12 mb-2">
+              <label for="transnoHider" style="width: 20%;" class="col-sm-2 col-form-label">Transno</label>
+              <div class="col-sm-6">
+                <input disabled type="text" value="<?= $datapost["No_Pls"] ?>" id="transnoHider" class="form-control">
+              </div>
+            </div>
+            <div class="row mb-12 mb-2">
               <label for="suplair" style="width:20%;" class="col-sm-2 col-form-label">Supplier</label>
               <div class=" col-sm-9">
                 <select disabled class="form-control" id="suplair">
@@ -117,7 +123,6 @@ $userid =  $data["userid"];
               <label for="nopo" style="width:20%;" class="col-sm-2 col-form-label">NO PO</label>
               <div class=" col-sm-6">
                 <select disabled class="form-control" id="nopo">
-
                 </select>
                 <span id="nopoError" class="error"></span>
               </div>
@@ -129,13 +134,14 @@ $userid =  $data["userid"];
                 <input disabled type="text" value="<?= $datapost["No_Pli"] ?>" id="idpackinglist" class="form-control">
               </div>
             </div>
-
             <div class="row mb-12 mb-2">
-              <label for="transnoHider" style="width: 20%;" class="col-sm-2 col-form-label">Transno</label>
+              <label for="note" style="width:20%;" class="col-sm-3 col-form-label">note</label>
               <div class="col-sm-6">
-                <input disabled type="text" value="<?= $datapost["No_Pls"] ?>" id="transnoHider" class="form-control">
+                <textarea type="text" disabled style="width:150%; height:80px;" id="note" value=" <?= $datapost["Note2"] ?>" class="form-control"> <?= $datapost["Note2"] ?></textarea>
+                <span id="noteError" class="error"></span>
               </div>
             </div>
+
 
             <div class="row mb-12 mb-2" style="display: none;">
               <label for="id_bl_awb" style="width: 20%;" class="col-sm-2 col-form-label">BL/AWB</label>
@@ -160,12 +166,12 @@ $userid =  $data["userid"];
                 <span id="keteranganError" class="error"></span>
               </div>
             </div>
-            <div class="row mb-12 mb-2">
+            <!-- <div class="row mb-12 mb-2">
               <label for="pib" style="width: 20%;" class="col-sm-2 col-form-label">PIB</label>
               <div style="width:35%;" class="col-sm-6">
                 <input disabled value="<?= $datapost["Pib"] ?>" type="text" id="pib" class="form-control text-end">
               </div>
-            </div>
+            </div> -->
             <div class="row mb-12 mb-2">
               <label for="forwarder" style="width: 20%;" class="col-sm-2 col-form-label">Forwarder</label>
               <div style="width:40%;" class="col-sm-6">
@@ -176,12 +182,12 @@ $userid =  $data["userid"];
                 <span id="forwarderError" class="error"></span>
               </div>
             </div>
-            <div class="row mb-12 mb-2">
+            <!-- <div class="row mb-12 mb-2">
               <label for="total" style="width: 20%;" class="col-sm-2 col-form-label">Total</label>
               <div style="width:35%;" class="col-sm-6">
                 <span disabled type="text" id="total" style="display: flex;justify-content: flex-end"><?= $datapost["Total"] . "&nbsp;&nbsp;&nbsp;" ?></span>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>

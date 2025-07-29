@@ -21,7 +21,7 @@ class PotransactionModel extends Models
             WHERE A.DONumber = B.NoPo 
         )";
         $table .= " AND suppid='" . $suplairid . "'";
-        //  $table .= " AND  flagpostingInv is NULL AND flagcancelDo is NULL ";
+        $table .= " AND  flagpostingInv is NULL AND flagcancelDo is NULL ";
         $table .= $this->orderby("DONumber");
         $query = $this->select($file, $table);
         //$this->consol_war($query);

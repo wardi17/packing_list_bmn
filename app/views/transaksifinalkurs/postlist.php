@@ -134,7 +134,7 @@ $userlog = (isset($_SESSION['login_user'])) ?  $_SESSION['login_user'] : '';
           <td>${b.supid}</td>
           <td>${b.NoPo}</td>
           <td>${ket}</td>
-          <td class="text-end">${b.Total}</td>
+          <td class="text-end">${b.Forwarder}</td>
           <td>${b.userid}</td>
           <td>${b.UserPosting}</td>
           <td>${tgl_set(b.DatePosting)}</td>
@@ -151,6 +151,7 @@ $userlog = (isset($_SESSION['login_user'])) ?  $_SESSION['login_user'] : '';
               <input type="hidden" name="Pib" value="${b.Pib}">
               <input type="hidden" name="Forwarder" value="${b.Forwarder}">
               <input type="hidden" name="Total" value="${b.Total}">
+              <input type="hidden" name="Note2" value="${b.Note2}">
               <button type="submit" class="btn btn-info" title="Details"><i class="fa-solid fa-eye"></i></button>
             </form>
           </td>

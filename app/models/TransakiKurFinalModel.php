@@ -721,6 +721,7 @@ class TransakiKurFinalModel extends Models
                 "Total"      => number_format(rtrim(odbc_result($result, 'Total')), 2, '.', ','),
                 "UserPosting"     => rtrim(odbc_result($result, 'UserPosting')),
                 "DatePosting"     => rtrim(odbc_result($result, 'DatePosting')),
+                "Note2"      => rtrim(odbc_result($result, 'Note2')),
             ];
         }
 

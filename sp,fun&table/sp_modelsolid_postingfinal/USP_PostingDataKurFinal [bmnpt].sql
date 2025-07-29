@@ -81,8 +81,6 @@ BEGIN
 
     -- 7. Upate Detail Baru file selisih
 
-    -- 6. Upate Detail Baru file selisih
-
     -----------------------------------
     EXEC @return_code = [dbo].[Update_Popakinglist_Detail_New] @No_Pls;
     IF @return_code IS NULL OR @return_code <> 0
@@ -112,14 +110,14 @@ BEGIN
 
     
    -----------------------------------
-    -- 9. Upate Detail Baru file selisih
+    -- 9. Upate Update_Partmaster_HargaBeli
     -----------------------------------
-    EXEC @return_code = [dbo].[Update_Partmaster_HargaBeli] @No_Pls;
+   /* EXEC @return_code = [dbo].[Update_Partmaster_HargaBeli] @No_Pls;
     IF @return_code IS NULL OR @return_code <> 0
     BEGIN
         ROLLBACK TRANSACTION;
         RETURN -9;
-    END
+    END*/
 
     -----------------------------------
     -- 10. Commit Transaksi

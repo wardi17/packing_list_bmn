@@ -132,7 +132,6 @@ $userlog = (isset($_SESSION['login_user'])) ?  $_SESSION['login_user'] : '';
 
   function Set_Tabel(result) {
 
-    console.log(result)
     let datatabel = ``;
 
     datatabel += `
