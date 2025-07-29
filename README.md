@@ -29,7 +29,7 @@ Sistem PackingList ini digunakan untuk mencatat dan memproses data transaksi pen
 Buka SQL Server Management Studio (SSMS) dan jalankan:
 
 ```sql
-CREATE DATABASE [bambi-bmi];
+CREATE DATABASE [bmnpt];
 GO
 
 -setelah itu buat table yang ada di folder sp,fun&table
