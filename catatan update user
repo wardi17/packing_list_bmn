@@ -1,0 +1,50 @@
+--1.langkah  pertama di database um_db
+
+INSERT INTO an_user
+select 'wardi' as email ,'BMN' as  cabang,'wardi' as id_cust, 1 as pass, 'Wardi' as nama, 
+poin_a,poin_b,status_pass,divisi_old,divisi_new,gender,'Staff' as jabatan, nik,status,code_menu
+from an_user where email='herman'
+
+
+UPDATE an_user SET  email='wardi'   where nama='Wardi'
+select * from an_user where nama='Wardi'
+
+--2.langkah kedua create bmnpt.dbo.msForwader
+--2.1. langkah kedua.1 CREATE TRIGGER trg_generate_msid
+--3. langkah ketiga  create bmnpt.dbo.POPAKINGLIST_KURS
+--4. langkah keempat create bmnpt.dbo.POPAKINGLIST_KURSDETAIL
+--5. langkah kelima create bmnpt.dbo.FrowaderDetail
+--6. langkah keenam create USP_INSERT_POAKINGLIST_KURS_Header
+--7. langkah ketujuh create sp_UpdateItemNo_KursDetail
+--8. langkah kedelapan create USP_TampilListKurPakingList
+--9. langkah kesembilan create FunSumDetailPakingList_KURS
+--10. langkah kesepuluh create usp_GetForwaderEditByID
+--11. langkah kesebelas create USP_UPDATE_POAKINGLIST_KURS_Header
+--12. langkah kedua belas  create USP_CetakPakingListKurs
+--13. langkah ketiga belas  create USP_List_KursSudahPosting
+
+--untuk menu final
+--14. langkah keempat belas create POPAKINGLIST_KURS_Temporary,FrowaderDetail_Temporary dan POPAKINGLIST_KURSDETAIL_Temporary  
+--15. langkah lima belas create USP_FinalPakingList
+--16. langkah keenam belas create USP_INSERT_POAKINGLIST_KURS_HeaderTemporary
+--17. langkah ketujuh belas create sp_UpdateItemNo_KursDetailTemp
+--18. langkah kedelapan belas create FunSumDetailPakingList_KURS_Temporary
+--19. langkah kesembilan belas create USP_TampilDataFinalPakingList
+--20. langkah ke dua puluh  create usp_GetForwaderEditFinalByID
+--21. langkah kedua puluh  satu create USP_UPDATE_POAKINGLIST_KURS_HeaderTemporary
+--22. langkah kedua puluh dua create USP_CetakPakingListKursFinal
+--23. langkah kedua puluh tiga create USP_PostingDataKurFinal
+--24. langkah kedua puluh empat create Insert_Popakinglist_Detail_History
+--25. langkah kedua puluh lima create Insert_Popakinglist_Header_New
+--26. langkah kedua puluh enam create USP_PostingDataKurFinal
+--27. langkah kedua puluh tujuh create Update_Partmaster_HargaBeli 
+--28. langkah kedua puluh delapan create Insert_Popakinglist_Header_New
+--29. langkah kedua puluh sembilan create Insert_Popakinglist_Header_History
+--30. langkah ketiga puluh create Insert_Popakinglist_Detail_New
+--31. langkah ketiga puluh satu create Insert_Popakinglist_Detail_History
+--32. langkah ketiga puluh dua create Insert_ForwarderDetail_New 
+--33. langkah ketiga puluh tiga create Insert_ForwarderDetail_History
+--34. langkah ketiga pu;uh empat create POPAKINGLIST_KURS_history,FrowaderDetail_history dan POPAKINGLIST_KURSDETAIL_history  
+--35. langkah ketiga puluh lima create USP_List_KursSudahPostingFinal
+
+

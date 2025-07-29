@@ -1,0 +1,39 @@
+SELECT a.Partid,a.PartName,a.UnitPrice,a.satuan,a.itemprice,a.kurs,b.pib
+--(kurs*itemprice*UnitPrice)
+  FROM [bambi-bmi].[dbo].[POTRANSACTIONDETAIL] as a 
+  LEFT JOIN POPAKINGLISTDETAIL as b ON b.Partid=a.Partid
+  where a.DOTransacID='PO231009165537'
+
+  --select * from POTRANSACTION  where DONumber='7723001503'
+
+1.langkah pertama  pilih supplier
+2. no.po
+3. masukan inputan pib, forworder
+3.1. sumbit maka ambil data dan langsung buat rumus serta tampil data
+4. saat simpan langsung get data dari podetail 
+5. buat rumus perhitungan pak iwan
+6. simpan ke table baru 
+
+
+
+
+ SET @kurs_akhir = (@total_amount_rp + @totolpib) / @total_amount_USD; : rumus khurs
+ 	
+  (Price * Kurs )                      :rumus Hpp_Awal
+
+ SET @kurs_akhir = (@total_amount_rp + @totolpib) / @total_amount_USD; rumus khurs
+ 	
+
+  Price * @kurs_akhir AS Hpp_Akhir     :rumus hpp Hpp_Akhir
+  
+  Hpp_Akhir - Hpp_Awal AS Selisih_Hpp  : rumus  Selisih_Hpp
+
+
+SET @prosentase = (((@total_amount_akhir - @total_amount_rp)/@total_amount_rp) * 100); : rumus prosentase
+
+
+
+rumus Final  update partmaster  ke kolom harga_beli berdasarkan partid 
+      dengan rumus  (Selisih_Hpp - Selisih_Hpp_b)
+
+
