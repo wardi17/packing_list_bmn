@@ -1,40 +1,42 @@
 <?php
 
-class Router {
+class Router
+{
 
-    public $controler =[
-         "msfor"      =>"MsForwader",
-         "transkur"   =>"TransaksiKurs",
-         "transkurfinal" =>"Transaksifinalkurs",
+    public $controler = [
+        "msfor"      => "MsForwader",
+        "transkur"   => "TransaksiKurs",
+        "transkurfinal" => "Transaksifinalkurs",
+        "mskat"    => "MsKategori",
+
     ];
 
 
-  
-    public function seturl(){
-       
+
+    public function seturl()
+    {
+
         $headers = getallheaders();
 
         $url = $headers['url'];
-        $expload = explode("/",$url);
-        $require =$expload[0];
+        $expload = explode("/", $url);
+        $require = $expload[0];
         $fungsi = $expload[1];
-        $cont =$this->controler[$require];
-         $this->control($cont);
-     
-       $model = new $cont;
-       $object = [$model,$fungsi];
+        $cont = $this->controler[$require];
+        $this->control($cont);
 
-       $call = call_user_func($object);
-       return $call;
-  
+        $model = new $cont;
+        $object = [$model, $fungsi];
+
+        $call = call_user_func($object);
+        return $call;
     }
 
 
 
     private function control($control)
-	{
-		
-		return require_once $control . '.php';
-	}
- 
+    {
+
+        return require_once $control . '.php';
+    }
 }

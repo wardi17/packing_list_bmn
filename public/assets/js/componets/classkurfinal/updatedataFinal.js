@@ -49,17 +49,23 @@ class KurDataServiceFinal {
         const data = [];
 
         $(selector).each(function () {
-            const msID = $(this).find('td:eq(2)').attr("id");
-            const hitungan = $(this).find('td:eq(3)').attr("id");
-            const rumus = $(this).find('td:eq(4)').attr("id");
+             const IDKategori = $(this).find('td:eq(1)').attr("id");
+            const msID = $(this).find('td:eq(3)').attr("id");
+            const hitungan = $(this).find('td:eq(4)').attr("id");
+            const rumus = $(this).find('td:eq(5)').attr("id");
             const amount = $(this).find('input[name="amount"]').val()?.replace(/\,/g,"").trim() || "";
            
-            data.push({
-                msID: msID,
-                rumus: rumus,
-                hitungan: hitungan,
-                amount:amount
-            });
+         const isDuplicate = data.some(item => item.IDKategori === IDKategori && item.msID === msID);
+               
+         if (!isDuplicate) {
+                    data.push({
+                        IDKategori: IDKategori,
+                        msID: msID,
+                        rumus: rumus,
+                        hitungan: hitungan,
+                        amount: amount
+                    });
+                }
         });
 
         return data;
@@ -152,7 +158,8 @@ class KurDataServiceFinal {
         const dataheader = this.getFormData();
         const detailforwader = this.ambilDataTabelForwader("#table_DetailforwaderEdit > tbody > tr");
         const detailkurdata = this.ambilDataTabelKurdata("#table_kurdata > tbody > tr");
-
+        // console.log(detailforwader);
+        // return;
         const fullData = {
             dataheader: dataheader,
             detailforwader: detailforwader,

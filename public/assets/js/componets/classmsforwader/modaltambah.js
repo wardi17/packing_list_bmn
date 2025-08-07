@@ -1,10 +1,12 @@
 import { Simpandata } from './simpandata.js';
+import { baseUrl } from '../config.js';
 export default class Modaltambah {
   constructor(containerSelector) {
     this.appendCustomStyles();
     this.container = document.querySelector(containerSelector);
     this.renderModal();
     this.attachInputListeners(); // Tambahkan auto-remove error
+    this.getKategori();
   }
 
   appendCustomStyles() {
@@ -46,7 +48,13 @@ export default class Modaltambah {
 
           <div class="modal-body">
             <form id="formtambah" class="form form-horizontal" enctype="multipart/form-data">
-              
+                 <div class="mb-3 row">
+                <label for="kategori" class="col-sm-4 col-form-label">kategori</label>
+                <div class="col-sm-8">
+                  <select type="text" id="kategori" class="form-control"/></select>
+                  <span id="kategoriError" class="error"></span>
+                </div>
+              </div>
               <div class="mb-3 row">
                 <label for="keterangan" class="col-sm-4 col-form-label">Keterangan</label>
                 <div class="col-sm-8">
@@ -100,6 +108,11 @@ export default class Modaltambah {
   }
 
   attachInputListeners() {
+      $(document).on("change", "#kategori", function () {
+        $("#kategoriError").text("");
+      });
+
+
     document.addEventListener("input", function (e) {
       if (e.target.id === "keterangan") {
         $("#keteranganError").text("");
@@ -115,15 +128,61 @@ export default class Modaltambah {
       }
     });
   }
+
+
+    getKategori(){
+             $.ajax({
+                   url: `${baseUrl}/router/seturl`,
+                   method: "GET",
+                   dataType: "json",
+                   contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                   headers: { 'url': 'mskat/tampilselectkatg' },
+       
+                   success:(result)=>{
+                    this.SetKaegori(result);
+                       //this.setModalData(result);
+                   },
+                   error: function () {
+                       Swal.fire({
+                           icon: "error",
+                           title: "Error!",
+                           text: "Terjadi kesalahan saat menampilkan data."
+                       });
+                   }
+               });
+    }
+
+    SetKaegori(result){
+      let  kategory = $("#kategori");
+         kategory.empty();
+           $(kategory).append('<option value="" disabled selected>Please Select</option>');
+                  $.each(result,function(a,b){
+                    const {id,name}=b;
+                   
+                    $(kategory).append('<option value="' + id + '">' + name + '</option>');
+
+          })
+
+       $(kategory).select2({
+        placeholder: "Please Select",
+        theme: "bootstrap-5",
+      });
+    }
 }
 $(document).on("click", "#CreateData", function (event) {
   event.preventDefault();
-
+ const idkategori = $("#kategori").find(":selected").val();
   const keterangan = $("#keterangan").val().trim();
   const rumus = document.querySelector('input[name="Rumus"]:checked');
   const hitung = document.querySelector('input[name="Hitung"]:checked');
 
   let isValid = true;
+
+  if (!idkategori) {
+    $("#kategoriError").text("kategori tidak boleh kosong.");
+    $("#kategori").focus();
+    isValid = false;
+  }
 
   if (!keterangan) {
     $("#keteranganError").text("Keterangan tidak boleh kosong.");
@@ -144,6 +203,7 @@ $(document).on("click", "#CreateData", function (event) {
   if (!isValid) return;
 
   const datas = {
+    idkategori:idkategori,
     keterangan: keterangan,
     rumus: rumus.value,
     hitungan: hitung.value,
@@ -153,3 +213,4 @@ $(document).on("click", "#CreateData", function (event) {
 
   // TODO: kirim data via AJAX jika diperlukan
 });
+

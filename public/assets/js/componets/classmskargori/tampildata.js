@@ -53,7 +53,7 @@ export default class TampilListdata {
         method: "GET",
         dataType: "json",
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: { 'url': 'msfor/tampildata' },
+        headers: { 'url': 'mskat/tampildata' },
     
         beforeSend: function () {
           Swal.fire({
@@ -97,9 +97,6 @@ export default class TampilListdata {
                     <th>No</th>
                     <th>Kategori</th>
                     <th>Keterangan</th>
-                    <th>Hitung</th>
-                    <th>Rumus</th>
-                    <th>Aktif</th>
                     <th>UserID</th>
                     <th>Edit</th>
                 </tr>
@@ -109,20 +106,16 @@ export default class TampilListdata {
 
     let no = 1;
     $.each(result, function(key, item) {
-        const { msID, keterangan, rumus, hitungan, status_aktif, user_input,kategori,IDKategori } = item;
+        const { IDKategori, keterangan, kategori, user_input } = item;
         datatabel += `
             <tr>
                 <td>${no++}</td>
                 <td>${kategori}</td>
                 <td>${keterangan}</td>
-                <td>${hitungan}</td>
-                <td>${rumus}</td>
-                <td>${status_aktif}</td>
                 <td>${user_input}</td>
                 <td>
                     <button type="button" class="btn btn-success btn-sm" id="editdata" 
-                    data-id='${msID}' data-keterangan='${keterangan}'data-rumus='${rumus}' data-hitungan='${hitungan}'
-                    data-status_aktif='${status_aktif}' data-idkategori='${IDKategori}'
+                    data-id='${IDKategori}' data-keterangan='${keterangan}'data-kategori='${kategori}' 
                     >Edit</button>
                 </td>
             </tr>
@@ -143,17 +136,12 @@ $(document).on("click","#editdata",function(e){
 
   const id = $(this).data('id');
   const keterangan = $(this).data('keterangan');
-  const rumus = $(this).data('rumus');
-  const hitungan = $(this).data('hitungan');
-  const status_aktif = $(this).data('status_aktif');
-  const idkategori   = $(this).data('idkategori');
+  const kategori = $(this).data('kategori');
+ 
   const  datas={
     "id":id,
     "keterangan":keterangan,
-    "rumus":rumus,
-    "hitungan":hitungan,
-    "status_aktif":status_aktif,
-    "idkategori" : idkategori
+    "kategori":kategori
    };
 
   new ModalEdit(datas);

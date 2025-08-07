@@ -123,6 +123,7 @@ $userid =  $data["userid"];
               <label for="nopo" style="width:20%;" class="col-sm-2 col-form-label">NO PO</label>
               <div class=" col-sm-6">
                 <select disabled class="form-control" id="nopo">
+
                 </select>
                 <span id="nopoError" class="error"></span>
               </div>
@@ -182,6 +183,7 @@ $userid =  $data["userid"];
                 <span id="forwarderError" class="error"></span>
               </div>
             </div>
+            <div id="listkategori"></div>
             <!-- <div class="row mb-12 mb-2">
               <label for="total" style="width: 20%;" class="col-sm-2 col-form-label">Total</label>
               <div style="width:35%;" class="col-sm-6">

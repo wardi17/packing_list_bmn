@@ -1,5 +1,5 @@
 import { Updatedata } from './updatedata.js';
-
+import { baseUrl } from '../config.js';
 export default class ModalEdit {
   constructor(datas) {
     this.datas = datas;
@@ -48,8 +48,8 @@ export default class ModalEdit {
           <div class="modal-body">
             <form id="formedit" class="form form-horizontal" enctype="multipart/form-data">
               <input type="hidden" id="msid" />
-
-              ${this.createInputGroup("keterangan_edit", "Keterangan", "text", "keteranganError")}
+              ${this.createSelectGroup("kategori_edit", "Kategori", "text", "kategori_editError")}
+              ${this.createInputGroup("keterangan_edit", "Keterangan", "text", "keterangan_editError")}
               ${this.createRadioGroup("Hitung_edit", "Hitung", ["Y", "N"], "HitungError")}
               ${this.createRadioGroup("Rumus_edit", "Rumus", ["Y", "N"], "RumusError")}
               ${this.createRadioGroup("Aktif_edit", "Aktif", ["Y", "N"], "AktifError")}
@@ -69,6 +69,7 @@ export default class ModalEdit {
     modalInstance.show();
 
     this.populateForm();
+    this.getKategori();
   }
 
   createInputGroup(id, label, type = "text", errorId = "") {
@@ -106,6 +107,20 @@ export default class ModalEdit {
     `;
   }
 
+    createSelectGroup(name, label, type = "text", errorId = "") {
+
+    return `
+        <div class="mb-3 row">
+                <label for="${name}" class="col-sm-4 col-form-label">${label}</label>
+                <div class="col-sm-8">
+                  <select type="${type}" id="${name}" class="form-control"/></select>
+                  <span id="${errorId}" class="error"></span>
+                </div>
+              </div>
+    `;
+  }
+
+
   populateForm() {
     const { id, keterangan, hitungan, rumus, status_aktif } = this.datas;
 
@@ -116,6 +131,49 @@ export default class ModalEdit {
     $(`input[name="Rumus_edit"][value="${rumus}"]`).prop("checked", true);
     $(`input[name="Aktif_edit"][value="${status_aktif}"]`).prop("checked", true);
   }
+
+
+      getKategori(){
+               $.ajax({
+                     url: `${baseUrl}/router/seturl`,
+                     method: "GET",
+                     dataType: "json",
+                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                     headers: { 'url': 'mskat/tampilselectkatg' },
+         
+                     success:(result)=>{
+                      this.SetKaegori(result);
+                         //this.setModalData(result);
+                     },
+                     error: function () {
+                         Swal.fire({
+                             icon: "error",
+                             title: "Error!",
+                             text: "Terjadi kesalahan saat menampilkan data."
+                         });
+                     }
+                 });
+      }
+
+
+      SetKaegori(result) {
+        const $kategori = $("#kategori_edit").empty()
+          .append('<option value="" disabled selected>Please Select</option>');
+
+        const { idkategori } = this.datas;
+
+        result.forEach(({ id, name }) => {
+          $kategori.append(
+            `<option value="${id}" ${id === idkategori ? "selected" : ""}>${name}</option>`
+          );
+        });
+
+        $kategori.select2({
+          placeholder: "Please Select",
+          theme: "bootstrap-5",
+        });
+      }
+
 }
 
 // Submit event
@@ -127,11 +185,17 @@ $(document).on("click", "#UpdateData", function (event) {
   const rumus      = $('input[name="Rumus_edit"]:checked').val();
   const hitung     = $('input[name="Hitung_edit"]:checked').val();
   const aktif      = $('input[name="Aktif_edit"]:checked').val();
-
+  const idkategori = $("#kategori_edit").find(":selected").val();
   let isValid = true;
 
+   if (!idkategori) {
+    $("#kategori_editError").text("kategori tidak boleh kosong.");
+    $("#kategori_edit").focus();
+    isValid = false;
+  }
+
   if (!keterangan) {
-    $("#keteranganError").text("Keterangan tidak boleh kosong.");
+    $("#keterangan_editError").text("Keterangan tidak boleh kosong.");
     $("#keterangan_edit").focus();
     isValid = false;
   }
@@ -154,12 +218,14 @@ $(document).on("click", "#UpdateData", function (event) {
   if (!isValid) return;
 
   const datas = {
-    msid,
+    msid :msid,
     keterangan,
-    rumus,
+    rumus :rumus,
     hitungan: hitung,
-    aktif
+    aktif :aktif,
+    idkategori:idkategori
   };
 
+  //console.log(datas); return;
   Updatedata(datas);
 });

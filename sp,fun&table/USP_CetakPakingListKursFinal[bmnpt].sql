@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[USP_CetakPakingListKursFinal]
+ALTER PROCEDURE [dbo].[USP_CetakPakingListKursFinal]
     @transnoHider VARCHAR(20),
     @DOTransacID  VARCHAR(100)
 AS
@@ -125,7 +125,7 @@ BEGIN
 	-- Ambil nilai Kurs_Akhir terkecil (TOP 1 ASC)
 	SELECT TOP 1 @kurslanded = Kurs_Akhir
 	FROM #temptess
-	WHERE  Partid <>'01.001.163'
+	WHERE  PartName NOT LIKE '%POB%' 
 	ORDER BY ItemNo ASC;
 
 
@@ -135,7 +135,7 @@ BEGIN
 	@usd_only = ISNULL(SUM(Amount_USD), 0),
 	@idr_only = ISNULL(SUM(Amount_Rp), 0)
 	FROM #temptess
-	WHERE  Partid ='01.001.163';
+	WHERE   PartName LIKE '%POB%' ;
 
 
 
@@ -154,8 +154,8 @@ BEGIN
         @total_RpAkhir    AS total_RpAkhir,
         @currid           AS currid,
 		@kurslanded		  AS kurslanded,
-		(@total_USD + @usd_only ) AS total_usd_only,
-	    (@total_Rp + @idr_only) AS total_idr_only
+		(@total_USD - @usd_only ) AS total_usd_only,
+	    (@total_Rp - @idr_only) AS total_idr_only
     FROM #temptess
     ORDER BY ItemNo ASC
 END

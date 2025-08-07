@@ -12,7 +12,8 @@ import TransakiForwoderFinal_Posting from './tampiltransforwaderfinalposting.js'
 import ProsesdataKurFinalPosting from './Prosesgetkurfinalposting.js';
 import { PostingdataKurFinal } from './postingdatafinal.js';
 import ProsesgetKurFinalDetail from './Prosesgetkurfinaldetail.js';
-
+import kategori from './listkategori.js';
+import kategoriedit from './listkategoriedit.js';
 
 
 $(document).ready(function () {
@@ -60,6 +61,7 @@ function initializeCreateMode() {
     $(document).on("click", "#SubmitProsesdata", handleSubmitProsesData);
     let cek ="nonproses";
     new ProsesdataKurFinalAdd(cek);
+    // new kategori(cek);
 }
 
 function handleSubmitDataFinal(e) {
@@ -172,6 +174,7 @@ function initializeEditMode() {
     $(document).on("click", "#DeleteData", handleDeleteData);
     let cek ="nonproses";
     new ProsesdataKurFinalEdit(cek);
+   // new kategoriedit(cek);
 }
 
 function handleTambahForwaderEdit(e) {
@@ -208,6 +211,8 @@ function initializePostingMode(){
        $("#detailforwader_posting").on("click", () => new TransakiForwoderFinal_Posting('#app'));
        $(document).on("click", "#PostingData", handlePostingData);
     new ProsesdataKurFinalPosting();
+    // let cek ="nonproses";
+    // new kategoriedit(cek);
 }
 
 function handlePostingData(e){
@@ -221,6 +226,8 @@ function handlePostingData(e){
 function initializeDetailsMode(){
        $("#detailforwader_posting").on("click", () => new TransakiForwoderFinal_Posting('#app'));
     new ProsesgetKurFinalDetail();
+//   let cek ="nonproses";
+//    new kategoriedit(cek);
 }
 
 // ==and mode Details =====
@@ -246,9 +253,7 @@ function bindCommonEvents() {
        // Tombol kembalidetails
     $(document).on("click", "#kembalipostidfinal, #BatalDetailDatafinal", (e) => {
         e.preventDefault();
-                // console.log("kembali detail"); return;
-        goBackDetail();
-
+        goBackListfinal();
     });
 
     //tombol kembali list
@@ -280,7 +285,57 @@ function calculateTotalfor(data) {
        
     });
    
-   
+       // ⬇️ Pindahkan ke sini: hanya dihitung sekali
+  let totalPerKategori = {};
+let uniqueChecker = new Set(); // Untuk menyaring baris yang sudah diproses
+
+        $('table tbody tr').each(function () {
+         let idKategori = ($(this).find('td').eq(1).attr('id') || '').replace(/\./g, '');
+            let kategori = $(this).find('td').eq(1).text().trim().toLowerCase();
+            let amountStr = ($(this).find('td').eq(2).find('input').val() || '0').replace(/,/g, '');
+            let amount = parseFloat(amountStr) || 0;
+
+            // Buat ID unik dari baris ini (misalnya gabungan kategori dan isi baris tertentu)
+            let uniqueKey = kategori + '|' + amountStr;
+
+            if (uniqueChecker.has(uniqueKey)) {
+                // Skip jika duplikat
+                return;
+            }
+
+            uniqueChecker.add(uniqueKey);
+
+              if (!totalPerKategori[kategori]) {
+                totalPerKategori[kategori] = {
+                    idKategori: idKategori,
+                    totalAmount: 0
+                };
+            }
+
+            totalPerKategori[kategori].totalAmount += amount;
+        });
+
+    // Tampilkan hasil total per kategori
+    for (let kategori in totalPerKategori) {
+             const data = totalPerKategori[kategori];
+            const idKategori = data.idKategori;
+            const totalAmount = data.totalAmount;
+
+            const selector = `#total_${idKategori}`;
+            const kategoriSelector = `#total_kategori${idKategori}`;
+
+            const decimalPlaces = totalAmount.toLocaleString().includes('.') ? 2 : 0;
+            const formattedAmount = totalAmount.toFixed(decimalPlaces);
+            const tampilRupiah = formatRupiah(formattedAmount);
+
+            const totalText = `${kategori} : ${tampilRupiah}`;
+
+            $(selector).text(totalText);
+            $(kategoriSelector).text(tampilRupiah);
+    }
+
+
+    // Hitungan total akhir
     const decimal_h = total_hitung.toString().includes('.') ? 2 : 0;
     const formatted_h = total_hitung.toFixed(decimal_h);
     const tampil_h = formatRupiah(formatted_h);
@@ -304,6 +359,6 @@ export function goBackList() {
     window.location.replace(`${baseUrl}/transaksifinalkurs/listfinal`);
 }
 
-// export function goBackListfinal() {
-//     window.location.replace(`${baseUrl}/transaksifinalkurs/postlist`);
-// }
+export function goBackListfinal() {
+    window.location.replace(`${baseUrl}/transaksifinalkurs/postlist`);
+}

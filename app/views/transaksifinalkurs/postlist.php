@@ -103,6 +103,7 @@ $userlog = (isset($_SESSION['login_user'])) ?  $_SESSION['login_user'] : '';
   }
 
   function Set_Tabel(result) {
+
     let datatabel = `
       <table id="tabel1" class='table table-striped table-hover' style='width:100%'>
         <thead id='thead' class='thead'>
@@ -147,11 +148,11 @@ $userlog = (isset($_SESSION['login_user'])) ?  $_SESSION['login_user'] : '';
               <input type="hidden" name="No_Pls" value="${b.No_Pls}">
               <input type="hidden" name="EntryDate" value="${EntryDate}">
               <input type="hidden" name="Note" value="${b.Note}">
+                <input type="hidden" name="Note2" value="${b.Note2}">
               <input type="hidden" name="POTransacid" value="${b.POTransacid}">
               <input type="hidden" name="Pib" value="${b.Pib}">
               <input type="hidden" name="Forwarder" value="${b.Forwarder}">
               <input type="hidden" name="Total" value="${b.Total}">
-              <input type="hidden" name="Note2" value="${b.Note2}">
               <button type="submit" class="btn btn-info" title="Details"><i class="fa-solid fa-eye"></i></button>
             </form>
           </td>

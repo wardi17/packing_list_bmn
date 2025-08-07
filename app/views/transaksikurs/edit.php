@@ -187,6 +187,7 @@ $userid =  $data["userid"];
               </div>
 
             </div>
+            <div id="listkategori"></div>
             <!-- <div class="row mb-12 mb-2">
               <label for="total" style="width: 20%;" class="col-sm-2 col-form-label">Total</label>
               <div style="width:35%;" class="col-sm-6">

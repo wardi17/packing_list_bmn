@@ -37,7 +37,7 @@ AS
 	);
 BEGIN
 
-	IF(@status ='Y')
+	IF(@status ='Y') 
 		BEGIN
 			INSERT INTO #temptess
 			SELECT No_Pls,No_Pli,NoPo,POTransacid,EntryDate,Note,supid,LastUserIDAccess,[bmnpt].[dbo].FunSumDetailPakingList_KURS_Temporary(No_Pls) as Totaldetail,

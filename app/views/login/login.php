@@ -23,7 +23,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <b>Biaya Import BMN</b>&nbsp;
+      <b>Biaya Import</b>&nbsp;
     </div>
     <!-- /.login-logo -->
     <div class="card">

@@ -66,6 +66,10 @@ CREATE TABLE FrowaderDetail(
 	
 );
 
+ALTER TABLE FrowaderDetail
+ADD IDKategori VARCHAR(25)
+
+
  CREATE TABLE POPAKINGLIST_KURSDETAIL(
 	[No_Pls] [char](20) NOT NULL,
 	[ItemNo] [float] NULL,

@@ -48,6 +48,8 @@ CREATE TABLE FrowaderDetail_Temporary(
 	FOREIGN KEY (No_Pls) REFERENCES POPAKINGLIST_KURS_Temporary(No_Pls),
 );
 
+ALTER TABLE FrowaderDetail_Temporary
+ADD IDKategori VARCHAR(25)
 
  CREATE TABLE POPAKINGLIST_KURSDETAIL_Temporary(
 	[No_Pls] [char](20) NOT NULL,

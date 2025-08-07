@@ -47,11 +47,12 @@ export default class TransaksiForwarder {
                         <h5 class="modal-title" id="modalTableLabel">Detail Forwader </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                         <table class="table table-striped table-hover" id="table_Detailforwader">
                             <thead>
                                 <tr>
                                     <th class="col-md-1 text-center">No</th>
+                                    <th class="col-md-2 text-start">Kategori</th>
                                     <th class="col-md-4 text-end">Amonut</th>
                                     <th class="col-md-4 text-start" >Keterangan</th>
                                     <th class="col-md-4 text-center">Hitungan</th>
@@ -64,10 +65,14 @@ export default class TransaksiForwarder {
                             </tbody>
                             <tfoot>
                             <tr>
-                            <td colspan="3" class="text-end fw-bold">Total:</td>
+                            <td colspan="4" class="text-end fw-bold">Total:</td>
                             <td class="text-center fw-bold" id="totalAmounthitungan"></td>
                             <td class="text-center fw-bold" id="totalAmountrumus"></td>
                             </tr>
+                            <tr>
+                             ${this.setIdTotalKategori(result)}
+                            </tr>
+                           
                             </tfoot>
                         </table>
                     </div>
@@ -87,8 +92,9 @@ export default class TransaksiForwarder {
  
 };
 
+
  generateTableRows(data){
-    if (!Array.isArray(data)) return `<tr><td colspan="5">Tidak ada data</td></tr>`;
+    if (!Array.isArray(data)) return `<tr><td colspan="6">Tidak ada data</td></tr>`;
     
     let hasil =``;
     let groupamount =``;
@@ -98,6 +104,7 @@ export default class TransaksiForwarder {
        hasil +=  `
         <tr>
             <td class="col-md-1 text-center">${index + 1}</td>
+            <td class="col-md-2 text-start" id="${item.IDKategori}">${item.kategori || ''}</td>
             <td class="col-md-4 text-end" ><input style="width:50% text-align: right;" type"text" name="amount" class="amount form-control text-end" id="${idmount}"></td>
             <td class="col-md-4 text-start" id="${item.msID}">${item.keterangan || ''}</td>
             <td class="col-md-4 text-center hitungan " id="${item.hitungan}">${item.hitungan}</td>
@@ -110,12 +117,39 @@ export default class TransaksiForwarder {
 };
 
 
+    setIdTotalKategori(result){
+        const uniquerKategori  = Object.values(
+            result.reduce((acc,item)=>{
+            acc[item.IDKategori] ??= { IDKategori: item.IDKategori, kategori: item.kategori };
+                return acc;
+            },{})
+        )
+
+
+        const map = new Map();
+        uniquerKategori.forEach(item => {
+            if (!map.has(item.IDKategori)) {
+            map.set(item.IDKategori, item.kategori);
+            }
+        });
+
+        let tdHTML =`<td></td>`;
+         tdHTML += [...map.entries()].map(
+            ([id, kat]) => `<td  id="total_${id.replace(/\./g, '')}"
+            class="text-center fw-bold"></td>`
+        ).join('');
+
+
+     //TransaksiHelper.setamountkeup(str_idctns);
+        return `<tr>${tdHTML}</tr>`;
+    
+    }
  
 
 
 
 
-}
+} //and class
 
 const TransaksiHelper = {
     setamountkeup(datasID) {

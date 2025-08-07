@@ -102,6 +102,7 @@ $pages    = isset($data['pages']) ? $data['pages'] : '';
                 <ul class="menu">
                     <li class="sidebar-title">Master</li>
                     <li class="sidebar-item <?= $pages == 'home' ? 'active' : '' ?>"><a href="<?= base_url ?>/home" class="sidebar-link"><i class="bi bi-box-seam"></i><span>Dashboard</span></a></li>
+                    <li class="sidebar-item <?= $pages == 'mskat' ? 'active' : '' ?>"><a href="<?= base_url ?>/mskategori" class="sidebar-link"><i class="bi bi-cash-stack"></i><span>Kategori Biaya</span></a></li>
                     <li class="sidebar-item <?= $pages == 'msfor' ? 'active' : '' ?>"><a href="<?= base_url ?>/msforwader" class="sidebar-link"><i class="bi bi-truck"></i><span>Master Forwader</span></a></li>
                     <li class="sidebar-title">Menu Belum Final</li>
                     <li class="sidebar-item <?= $pages == 'inputkrus' ? 'active' : '' ?>"><a href="<?= base_url ?>/transaksikurs" class="sidebar-link"><i class="bi bi-cash-stack"></i><span>Input Biaya Import</span></a></li>

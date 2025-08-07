@@ -1,6 +1,7 @@
 <?php
 
-class Database{
+class Database
+{
 	private $host = DB_HOST;
 	private $user = DB_USER;
 	private $pass = DB_PASS;
@@ -9,22 +10,20 @@ class Database{
 	private $dbh;
 	private $dbh2;
 	private $stmt;
+	private $server = SERVER_DB;
 
 	public function __construct()
 	{
 
-		//$server ="(LOCAL)";
-		$server="DESKTOP-1CEB0AJ\SQLEXPRESS";
-		// $connection = odbc_connect("Driver={SQL Server};Server=DESKTOP-PUJ0GAQ\MSSQLSERVER2;Database=bambi-bmi;","sa","123456");
-		// $this->dbh =$connection;
-		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server='.$server.';Database='. $this->dbnm;
-		$dsn2 = 'Driver={SQL Server};Driver={SQL Server};Server='.$server.';Database='. $this->dbnm2;
-		
-	
-		try{
-			$this->dbh = odbc_connect($dsn,$this->user,$this->pass);
-			$this->dbh2 = odbc_connect($dsn2,$this->user,$this->pass);
-		}catch(PDOException $e){
+		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server=' . $this->server . ';Database=' . $this->dbnm;
+		$dsn2 = 'Driver={SQL Server};Driver={SQL Server};Server=' . $this->server . ';Database=' . $this->dbnm2;
+
+
+
+		try {
+			$this->dbh = odbc_connect($dsn, $this->user, $this->pass);
+			$this->dbh2 = odbc_connect($dsn2, $this->user, $this->pass);
+		} catch (PDOException $e) {
 			die($e->getMessage());
 		}
 	}
@@ -32,12 +31,13 @@ class Database{
 
 	public function query($query)
 	{
-	
-		$this->stmt = odbc_exec($this->dbh,$query);
+
+		$this->stmt = odbc_exec($this->dbh, $query);
 	}
 
-	public function bind($param, $value, $type = null){
-		if(is_null($type)){
+	public function bind($param, $value, $type = null)
+	{
+		if (is_null($type)) {
 			switch (true) {
 				case is_int($value):
 					$type = PDO::PARAM_INT;
@@ -58,7 +58,7 @@ class Database{
 
 	public function execute()
 	{
-		
+
 		$this->stmt->execute();
 	}
 
@@ -82,63 +82,65 @@ class Database{
 	}
 
 
-	public function baca_sql($sql){
-	
-		$db =$this->dbh;
-		$result = odbc_exec($db,$sql);
+	public function baca_sql($sql)
+	{
+
+		$db = $this->dbh;
+		$result = odbc_exec($db, $sql);
 		return $result;
-	
 	}
 
-	public function baca_sql2($sql){
-	
-		$db =$this->dbh2;
-		$result = odbc_exec($db,$sql);
+	public function baca_sql2($sql)
+	{
+
+		$db = $this->dbh2;
+		$result = odbc_exec($db, $sql);
 		return $result;
-	
 	}
-	
-	
+
+
 	// public function baca_sql3($sql){
-	
+
 	// 	$db3 =$this->dbh3;
 	// 	$result = odbc_exec($db3,$sql);
 	// 	return $result;
-	
+
 	// }
 
-	public function getconnt($cabang){
-	
-		
+	public function getconnt($cabang)
+	{
 
-		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server=(LOCAL);Database='. $this->dbnm;
-	
-		try{
-			$this->dbh = odbc_connect($dsn,$this->user,$this->pass);
-		}catch(PDOException $e){
+
+
+		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server=(LOCAL);Database=' . $this->dbnm;
+
+		try {
+			$this->dbh = odbc_connect($dsn, $this->user, $this->pass);
+		} catch (PDOException $e) {
 			die($e->getMessage());
 		}
 	}
 
-	public function getconntbambins(){
-	
-			$this->dbnm = "bambi-ns";
-		
-		
+	public function getconntbambins()
+	{
 
-		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server=(LOCAL);Database='. $this->dbnm;
-	
-		
-		try{
-			$this->dbh = odbc_connect($dsn,$this->user,$this->pass);
-		}catch(PDOException $e){
+		$this->dbnm = "bambi-ns";
+
+
+
+		$dsn = 'Driver={SQL Server};Driver={SQL Server};Server=(LOCAL);Database=' . $this->dbnm;
+
+
+		try {
+			$this->dbh = odbc_connect($dsn, $this->user, $this->pass);
+		} catch (PDOException $e) {
 			die($e->getMessage());
 		}
 	}
 
 
-	public function commit(){
+	public function commit()
+	{
 		odbc_commit($this->dbh);
 	}
 }
-

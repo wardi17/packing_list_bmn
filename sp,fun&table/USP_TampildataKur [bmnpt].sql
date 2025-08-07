@@ -98,7 +98,7 @@ BEGIN
     FROM 
         #temptess
     WHERE 
-        DOTransacID = @nopo  AND Partid<>'01.001.163' ;
+        DOTransacID = @nopo  AND PartName NOT LIKE '%POB%'  ;
 
 
     IF @total_amount_USD = 0
@@ -138,7 +138,7 @@ BEGIN
     FROM 
         #temptess2
     WHERE 
-        DOTransacID = @nopo AND Partid<>'01.001.163';
+        DOTransacID = @nopo AND PartName NOT LIKE '%POB%' ;
 
     IF @total_amount_rp <> 0
         SET @prosentase = (((@total_amount_akhir - @total_amount_rp)/@total_amount_rp) * 100);
@@ -160,5 +160,5 @@ END
 GO
 
 -- Eksekusi contoh
- EXEC USP_TampildataKur 'PO250205094039','6900000'
+ EXEC USP_TampildataKur 'PO250801140114','1120878'
 

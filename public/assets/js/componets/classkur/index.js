@@ -11,7 +11,7 @@ import TransakiForwoder_Posting from './tampiltransforwaderposting.js';
 import ProsesdataKurPosting from './Prosesgetkurposting.js';
 import { PostingdataKur } from './postingdata.js';
 import ProsesdataKurDetail from './Prosesgetkurdetail.js';
-
+import kategori from './listkategori.js';
 
 $(document).ready(function () {
     const pageMode = getPageMode();
@@ -60,6 +60,8 @@ function initializeCreateMode() {
     $("#detailforwader").on("click", () => new TransakiForwoder('#app'));
     $(document).on("click", "#tambahforwader", handleTambahForwader);
     $(document).on("click", "#SubmitProsesdata", handleSubmitProsesData);
+    // let cek ="proses"
+    // new kategori(cek)
 }
 
 function handleSubmitData(e) {
@@ -164,6 +166,7 @@ function handleUpdateData(e) {
 
 
 function initializeEditMode() {
+   
     $(document).on("click", "#UpdateData", handleUpdateData);
     $("#detailforwader_edit").on("click", () => new TransakiForwoder_Edit('#app'));
     $(document).on("click", "#tambahforwader_edit", handleTambahForwaderEdit);
@@ -171,6 +174,7 @@ function initializeEditMode() {
     $(document).on("click", "#DeleteData", handleDeleteData);
     let cek ="nonproses";
     new ProsesdataKurEdit(cek);
+    // new kategori(cek);
 }
 
 function handleTambahForwaderEdit(e) {
@@ -207,6 +211,8 @@ function initializePostingMode(){
        $("#detailforwader_posting").on("click", () => new TransakiForwoder_Posting('#app'));
        $(document).on("click", "#PostingData", handlePostingData);
     new ProsesdataKurPosting();
+    //     let cek ="nonproses";
+    //  new kategori(cek);
 }
 
 function handlePostingData(e){
@@ -220,6 +226,8 @@ function handlePostingData(e){
 function initializeDetailsMode(){
        $("#detailforwader_posting").on("click", () => new TransakiForwoder_Posting('#app'));
     new ProsesdataKurDetail();
+    /*let cek ="nonproses";
+     new kategori(cek);*/
 }
 
 // ==and mode Details =====
@@ -247,7 +255,7 @@ function bindCommonEvents() {
         e.preventDefault();
         goBackDetail();
     });
-
+     
 
 }
 
@@ -255,13 +263,12 @@ function calculateTotalfor(data) {
     let total_hitung = 0;
     let total_rumus = 0;
     const selector = `.${data}`;
-  
+
     $(selector).each(function () {
           let $row = $(this).closest('tr');
          let hitungan = $row.find('.hitungan').text().trim();
          let rumus = $row.find('.rumus').text().trim();
-
-   
+    
         if(hitungan ==="Y"){
             total_hitung += formatjm($(this).val()) || 0;
         }
@@ -269,10 +276,48 @@ function calculateTotalfor(data) {
         if(rumus ==="Y"){
             total_rumus += formatjm($(this).val()) || 0;
         }
-       
+
+         
     });
    
-   
+    // ⬇️ Pindahkan ke sini: hanya dihitung sekali
+    let totalPerKategori = {};
+
+    $('table tbody tr').each(function () {
+    let idKategori = ($(this).find('td').eq(1).attr('id') || '').replace(/\./g, '');
+       let kategori = $(this).find('td').eq(1).text().trim().toLowerCase();
+        let amountStr = ($(this).find('td').eq(2).find('input').val() || '0').replace(/,/g, '');
+        let amount = parseFloat(amountStr) || 0;
+
+        if (!totalPerKategori[kategori]) {
+            totalPerKategori[kategori] = {
+                idKategori: idKategori,
+                totalAmount: 0
+            };
+        }
+        totalPerKategori[kategori].totalAmount += amount;
+    });
+
+     for (let kategori in totalPerKategori) {
+            const data = totalPerKategori[kategori];
+            const idKategori = data.idKategori;
+            const totalAmount = data.totalAmount;
+
+            const selector = `#total_${idKategori}`;
+            const kategoriSelector = `#total_kategori${idKategori}`;
+
+            const decimalPlaces = totalAmount.toLocaleString().includes('.') ? 2 : 0;
+            const formattedAmount = totalAmount.toFixed(decimalPlaces);
+            const tampilRupiah = formatRupiah(formattedAmount);
+
+            const totalText = `${kategori} : ${tampilRupiah}`;
+
+            $(selector).text(totalText);
+            $(kategoriSelector).text(tampilRupiah);
+        }
+
+    // Hitungan total akhir
+
     const decimal_h = total_hitung.toString().includes('.') ? 2 : 0;
     const formatted_h = total_hitung.toFixed(decimal_h);
     const tampil_h = formatRupiah(formatted_h);

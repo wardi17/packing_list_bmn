@@ -170,7 +170,7 @@ class TransakiKurFinalModel extends Models
             $rumus    = $this->test_input($item["rumus"]);
             $hitungan = $this->test_input($item["hitungan"]);
             $amount   = $this->test_input($item["amount"]);
-
+            $IDKategori = $this->test_input($item["IDKategori"]);
             // ✅ Cek apakah data sudah ada berdasarkan No_Pls dan msID
             $cekQuery = "
             SELECT COUNT(*) as jumlah 
@@ -183,13 +183,14 @@ class TransakiKurFinalModel extends Models
             // Buat query insert
             if ($row["jumlah"] == 0) {
                 $query = "
-                INSERT INTO {$this->table_fro} (No_Pls, msID, rumus, hitungan, amount)
+                INSERT INTO {$this->table_fro} (No_Pls, msID, rumus, hitungan, amount,IDKategori)
                 VALUES (
                     '{$transo}',
                     '{$msID}',
                     '{$rumus}',
                     '{$hitungan}',
-                    '{$amount}'
+                    '{$amount}',
+                    '{$IDKategori}'
                 )
             ";
 
@@ -286,7 +287,6 @@ class TransakiKurFinalModel extends Models
         $tahun = $this->test_input($post["tahun"]);
 
         $query = "USP_TampilDataFinalPakingList '" . $status . "','" . $tahun . "','" . $userid . "' ";
-
 
         $result = $this->db->baca_sql2($query);
 
@@ -450,7 +450,7 @@ class TransakiKurFinalModel extends Models
         foreach ($detailforwader as $item) {
             $query = "
                         UPDATE $this->table_fro SET  rumus ='{$this->test_input($item["rumus"])}', hitungan='{$this->test_input($item["hitungan"])}', 
-                        amount='{$this->test_input($item["amount"])}'
+                        amount='{$this->test_input($item["amount"])}',IDKategori='{$this->test_input($item["IDKategori"])}'
                         WHERE No_Pls ='{$transo}'AND msID='{$this->test_input($item["msID"])}'
                     ";
 
@@ -721,7 +721,7 @@ class TransakiKurFinalModel extends Models
                 "Total"      => number_format(rtrim(odbc_result($result, 'Total')), 2, '.', ','),
                 "UserPosting"     => rtrim(odbc_result($result, 'UserPosting')),
                 "DatePosting"     => rtrim(odbc_result($result, 'DatePosting')),
-                "Note2"      => rtrim(odbc_result($result, 'Note2')),
+                "Note2"       => rtrim(odbc_result($result, 'Note2')),
             ];
         }
 

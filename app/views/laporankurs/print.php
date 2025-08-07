@@ -79,7 +79,7 @@ class FPDF_AutoWrapTable extends FPDF
 
         // Packing List Title
         $this->SetFont('Arial', 'BI', 14);
-        $this->Cell(0, 10, 'BIAYA PIB FORWARDER', 0, 1, 'C');
+        $this->Cell(0, 10, 'HPP LANDED', 0, 1, 'C');
 
         // Buyer Information
         $this->SetFont('Arial', 'B', 8);
@@ -219,22 +219,22 @@ class FPDF_AutoWrapTable extends FPDF
 
         //  Cetak PIB
         $x = 155;
-        $this->SetXY($x, $currentY);
+        /* $this->SetXY($x, $currentY);
         $this->Cell(55, 5, 'PIB', 0, 0, 'L');
         $this->Cell(7, 5, ': Rp.', 0, 0, 'C');
         $this->Cell(22, 5, $Pib, 0, 0, 'R');
         $this->Cell(5, 5, " - > ", 0, 0, 'L');
-        $this->Cell(22, 5, " Tidak Masuk HPP", 0, 1, 'L');
+        $this->Cell(22, 5, " Tidak Masuk HPP", 0, 1, 'L'); */
 
         //Cetak forwader
 
         $y2 = $this->GetY();
-        $this->SetXY($x, $y2);
-        $this->Cell(55, 5, 'FORWARDER', 0, 0, 'L');
+        $this->SetXY($x, $currentY);
+        $this->Cell(55, 5, 'BIAYA FORWARDER', 0, 0, 'L');
         $this->Cell(7, 5, ': Rp.', 0, 0, 'C');
-        $this->Cell(22, 5, $Forwarder, 0, 0, 'R');
-        $this->Cell(5, 5, " - > ", 0, 0, 'L');
-        $this->Cell(22, 5, " Masuk HPP", 0, 1, 'L');
+        $this->Cell(22, 5, $Forwarder, 0, 1, 'R');
+        //   $this->Cell(5, 5, " - > ", 0, 0, 'L');
+        //  $this->Cell(22, 5, " Masuk HPP", 0, 1, 'L');
 
         //cetak penjumlahan
         // $y3 = $this->GetY();

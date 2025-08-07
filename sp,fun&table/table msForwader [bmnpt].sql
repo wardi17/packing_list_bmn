@@ -13,6 +13,11 @@ CREATE TABLE msForwader(
     date_edit DATETIME 
 )
 
+ALTER TABLE msForwader 
+ADD IDKategori VARCHAR(25),
+kategori VARCHAR(100)
+
+
 
 INSERT INTO msForwader (keterangan,rumus,hitungan,status_aktif,user_input)
 VALUES ('Biaya Freight Charge (Ongkos Kirim)', 'Y', 'Y', 'Y', 'admin');

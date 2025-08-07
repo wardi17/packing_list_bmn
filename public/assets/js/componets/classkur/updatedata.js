@@ -49,12 +49,14 @@ class KurDataService {
         const data = [];
 
         $(selector).each(function () {
-            const msID = $(this).find('td:eq(2)').attr("id");
-            const hitungan = $(this).find('td:eq(3)').attr("id");
-            const rumus = $(this).find('td:eq(4)').attr("id");
+            const IDKategori = $(this).find('td:eq(1)').attr("id");
+            const msID = $(this).find('td:eq(3)').attr("id");
+            const hitungan = $(this).find('td:eq(4)').attr("id");
+            const rumus = $(this).find('td:eq(5)').attr("id");
             const amount = $(this).find('input[name="amount"]').val()?.replace(/\,/g,"").trim() || "";
            
             data.push({
+                IDKategori:IDKategori,
                 msID: msID,
                 rumus: rumus,
                 hitungan: hitungan,
@@ -142,7 +144,7 @@ class KurDataService {
                 Swal.fire({
                     icon: "error",
                     title: "Error!",
-                    text: "Terjadi kesalahan saat Update data."
+                    text: "Terjadi kesalahan saat Simpan data."
                 });
             }
         });

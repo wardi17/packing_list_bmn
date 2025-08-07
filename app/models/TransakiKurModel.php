@@ -39,7 +39,7 @@ class TransakiKurModel extends Models
         $nopo = $this->test_input($post["nopo"]);
         $totolpib = $this->test_input($post["totolpib"]);
         $query = "USP_TampildataKur '{$nopo}','{$totolpib}'";
-        //  $this->consol_war($query);
+
         $result = $this->db->baca_sql2($query);
         $datas = [];
 
@@ -162,7 +162,7 @@ class TransakiKurModel extends Models
             $rumus   = $this->test_input($item["rumus"]);
             $hitungan = $this->test_input($item["hitungan"]);
             $amount  = $this->test_input($item["amount"]);
-
+            $IDKategori = $this->test_input($item["IDKategori"]);
             // ✅ Cek apakah data sudah ada berdasarkan No_Pls dan msID
             $cekQuery = "
             SELECT COUNT(*) as jumlah 
@@ -176,13 +176,14 @@ class TransakiKurModel extends Models
             if ($row["jumlah"] == 0) {
                 // ✅ Hanya insert jika data belum ada
                 $query = "
-                INSERT INTO {$this->table_fro} (No_Pls, msID, rumus, hitungan, amount)
+                INSERT INTO {$this->table_fro} (No_Pls, msID, rumus, hitungan, amount,IDKategori)
                 VALUES (
                     '{$noPls}',
                     '{$msID}',
                     '{$rumus}',
                     '{$hitungan}',
-                    '{$amount}'
+                    '{$amount}',
+                    '{$IDKategori}'
                 )
             ";
 
@@ -430,7 +431,7 @@ class TransakiKurModel extends Models
         foreach ($detailforwader as $item) {
             $query = "
                     UPDATE $this->table_fro SET  rumus ='{$this->test_input($item["rumus"])}', hitungan='{$this->test_input($item["hitungan"])}', 
-                    amount='{$this->test_input($item["amount"])}'
+                    amount='{$this->test_input($item["amount"])}',IDKategori='{$this->test_input($item["IDKategori"])}'
                     WHERE No_Pls ='{$transo}'AND msID='{$this->test_input($item["msID"])}'
                 ";
 

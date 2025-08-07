@@ -33,8 +33,13 @@ export default class TransakiForwoder_Edit {
     };
 
   setModalData(result) {
-    const total_hitung = this.settotalamountHitungan(result);
-    const total_rumus = this.settotalamountRumus(result)
+    
+    const header = result.header;
+    const detail = result.detaildata
+
+
+    const total_hitung = this.settotalamountHitungan(header);
+    const total_rumus = this.settotalamountRumus(header)
     const modal = document.createElement("div");
     modal.className = "modal fade";
     modal.id = "modaltransforwaderedit";
@@ -51,11 +56,12 @@ export default class TransakiForwoder_Edit {
                         <h5 class="modal-title" id="modalTableeditLabel">Detail Forwader Edit</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                         <table class="table table-striped table-hover" id="table_DetailforwaderEdit">
                             <thead>
                                   <tr>
                                     <th class="col-md-1 text-center">No</th>
+                                     <th class="col-md-2 text-start">Kategori</th>
                                     <th class="col-md-4 text-end">Amonut</th>
                                     <th class="col-md-4 text-start" >Keterangan</th>
                                     <th class="col-md-4 text-center">Hitungan</th>
@@ -64,13 +70,16 @@ export default class TransakiForwoder_Edit {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${this.generateTableRows(result)}
+                                ${this.generateTableRows(header)}
                             </tbody>
                             <tfoot>
                             <tr>
-                            <td colspan="3" class="text-end fw-bold">Total:</td>
+                            <td colspan="4" class="text-end fw-bold">Total:</td>
                             <td class="text-center fw-bold" id="totalAmounthitungan">${total_hitung}</td>
                             <td class="text-center fw-bold" id="totalAmountrumus">${total_rumus}</td>
+                            </tr>
+                            <tr>
+                             ${this.setIdTotalKategori(header)}
                             </tr>
                             </tfoot>
                         </table>
@@ -87,10 +96,51 @@ export default class TransakiForwoder_Edit {
      const modalInstance = new bootstrap.Modal(document.getElementById('modaltransforwaderedit'));
     modalInstance.show();
  
-
+    this.setTotaledit(detail);
  
 };
 
+    setTotaledit(detail){
+        
+        detail.forEach(element=>{
+            const ktg = element.kategori;
+            const idktg = element.IDKategori.replace(/\./g, '');
+        if (element.TotalAmount !== undefined) {
+            const total = element.TotalAmount ?? 0;
+            let totalHTML = total.toLocaleString('id-ID');
+            let idedit = `#total_${idktg}`;
+            let total_edit  = ktg+" : "+totalHTML;
+            $(idedit).text(total_edit);
+        }
+        })
+    }
+ setIdTotalKategori(result){
+        const uniquerKategori  = Object.values(
+            result.reduce((acc,item)=>{
+            acc[item.IDKategori] ??= { IDKategori: item.IDKategori, kategori: item.kategori };
+                return acc;
+            },{})
+        )
+
+
+        const map = new Map();
+        uniquerKategori.forEach(item => {
+            if (!map.has(item.IDKategori)) {
+            map.set(item.IDKategori, item.kategori);
+            }
+        });
+
+    let tdHTML =`<td></td>`;
+         tdHTML += [...map.entries()].map(
+            ([id, kat]) => `<td  id="total_${id.replace(/\./g,'')}"
+            class="text-center fw-bold"></td>`
+        ).join('');
+
+
+     //TransaksiHelper.setamountkeup(str_idctns);
+        return `<tr>${tdHTML}</tr>`;
+    
+    }
  generateTableRows(data){
     if (!Array.isArray(data)) return `<tr><td colspan="5">Tidak ada data</td></tr>`;
     
@@ -103,6 +153,7 @@ export default class TransakiForwoder_Edit {
        hasil +=  `
         <tr>
             <td class="col-md-1 text-center">${index + 1}</td>
+            <td class="col-md-2 text-start" id="${item.IDKategori}">${item.kategori || ''}</td>
             <td class="col-md-4 text-end" ><input value="${item.amount}" style="width:50% text-align: right;" type"text" name="amount" class="amount form-control text-end" id="${idmount}"></td>
             <td class="col-md-4 text-start" id="${item.msID}">${item.keterangan || ''}</td>
             <td class="col-md-4 text-center hitungan " id="${item.hitungan}">${item.hitungan}</td>
